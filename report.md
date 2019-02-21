@@ -31,6 +31,12 @@ We see that lacking values were filled with `NaN`. Initially we considered dropp
 
 Added a new variable `new_avg_temp_c` to the data frame that averages both `station_avg_temp_c` and `reanalysis_avg_temp_k`.
 
+
+
+## Data Explortation
+
+
+
 ## ___ Notes: to talk about
 
 Year
