@@ -49,3 +49,6 @@ Does San Juans not have data pre 2000s or did Dengue not exist there then
 "Aedes aegyptibites primarily during the day. This species is most active for approximately two hours after sunrise and several hours before sunset,but it can bite at night in well lit areas" ([source](https://www.cdc.gov/dengue/resources/30jan2012/aegyptifactsheet.pdf)).
 
 We found that the variable `reanalysis_tdtr_k`, that is daytime (diurnal) temperature range, has the second highest absolute correlation probability (-27%) for total cases of Dengue fever.
+
+
+[Forward selection explained.](https://www.statisticshowto.datasciencecentral.com/forward-selection/)
