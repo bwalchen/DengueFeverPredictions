@@ -22,13 +22,6 @@ Dengue fever is known to be related to climate and humidity:
 * `reanalysis_relative_humidity_percent` – Mean relative humidity
 
 
-#### Citations
-* https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/ 
-* https://www.health.ny.gov/diseases/communicable/dengue_fever/fact_sheet.htm 
-* http://www.muxetv.com/2019/01/08/medical-centric-what-is-dengue/
-
-
-
 ## Data Preparation
 
 We see that lacking values were filled with `NaN`. Initially we considered dropping all rows that contain any nulls. After some consideration we realized that we would be losing a lot of data if we did so. Our strategy will be to make a temporary data frame for each model we use. Each of these will drop rows with nulls **only** if the variable being used for that row is a null.
@@ -42,7 +35,7 @@ Added a new variable `new_avg_temp_c` to the data frame that averages both `stat
 
 ### Correlation Interpretation
 
-![Correlation chart](./img/chart_correlation.PNG)
+![Correlation chart](./imgs/chart_correlation.PNG)
 
 Above is a bar chart of feature correlations to the total cases of dengue. To determine which variables have the most correlation with total cases, we look for the the highest absolute values. The categories with the highest values are: 
 
@@ -51,7 +44,7 @@ Above is a bar chart of feature correlations to the total cases of dengue. To de
 
 ### Dengue cases per year
 
-![Year versus total cases chart ](./img/chart_year.PNG)
+![Year versus total cases chart ](./imgs/chart_year.PNG)
 
 This visualization provides information on Dengue occurencers per year in comparison between Iquitos, Peru and San Juan, Puerto Rico.
 
@@ -62,7 +55,7 @@ The differences in total cases of dengue between the two cities is impressive. W
 
 ### Minimum Air Temperature per City Interpretation
 
-![Minimum air temperature versus total cases chart](./img/chart_minAirTemp.PNG)
+![Minimum air temperature versus total cases chart](./imgs/chart_minAirTemp.PNG)
 
 
 As the minimum air temperature increases, the total cases of degue increases. San Juan, Puerto Rico is on average much warmer than Iquitos, Peru. There are increasingly many more cases of dengue in San Juans than in Iquitos.
@@ -70,21 +63,18 @@ As the minimum air temperature increases, the total cases of degue increases. Sa
 
 ### Dengue cases vs daytime temperature range
 
-![Daytime temperature versus total cases chart](./img/daytimeTemp.PNG)
+![Daytime temperature versus total cases chart](./imgs/chart_daytimeTemp.PNG)
 
 We observed the change in total dengue cases relative to daytime temperature range. 
 
 
 ### Week of the Year Interpretation
 
-![Cases per week of year](./img/chart_weekOfYear.PNG)
+![Cases per week of year](./imgs/chart_weekOfYear.PNG)
 
 There appears to be a seasonal increase of dengue cases between weeks 35 to 50. There is a dip/decrease of dengue cases between weeks 10 to 20. Though this graph does make it difficult to see when dots overlap.
 
 
-
-
-________________ --------------
 
 ## Statistical Modeling
 
@@ -124,9 +114,9 @@ reanalysis_dew_point_temp_k + reanalysis_min_air_temp_k + city + 1
 ```
 
 
-### Variable overview
+## Variable overview
 
-#### Dependent Variable
+### Dependent Variable
 **total_cases** is the dependent variable that we are trying to predict based off of the independent, environmental variables.
 
 #### **Date**
@@ -162,7 +152,11 @@ The set of **variables** that we are including for our model:
 
 ``` 
 total_cases ~ 
-week_start_date + station_diur_temp_rng_c + station_avg_temp_c + reanalysis_max_air_temp_k + reanalysis_sat_precip_amt_mm + reanalysis_precip_amt_kg_per_m2 + reanalysis_specific_humidity_g_per_kg + reanalysis_dew_point_temp_k + reanalysis_min_air_temp_k + 1 
+week_start_date + station_diur_temp_rng_c + station_avg_temp_c + 
+reanalysis_max_air_temp_k + reanalysis_sat_precip_amt_mm + 
+reanalysis_precip_amt_kg_per_m2 + reanalysis_specific_humidity_g_per_kg + 
+reanalysis_dew_point_temp_k + reanalysis_min_air_temp_k + 1 
+
 ```
 
 We decided to remove the **city** variable.
@@ -182,7 +176,7 @@ Based on our model results we believe that our model has a strong fit.
 
 The bar chart below demonstrates beta coefficients for how chosen features. It should be taken into consideration that “reanalysis_min_air_temp_k” was not statistically significant with a P value of 0.3 . 
 
-![Beta coefficients](./img/beta coeffs.png)
+![Beta coefficients](./imgs/beta coeffs.png)
 
 **Week Start**
 Surprisingly, most p values for “week start date” were not statistically significant. Out of the 1047 rows for week_start_date, only 145 rows were statistically significant. With this information, we were encouraged to try running the model with “week_of_day” instead of “week_start_date”. By swapping the variables, this produced an adjusted r-square value of 0.1, greatly decreasing our previous adjusted r-squared value by 75%. Though we do not have a full understanding of how  or why week_start_dates influences our model and week_of_day does not, we understand that it is extremely important for our fit and variance.
@@ -190,7 +184,7 @@ Surprisingly, most p values for “week start date” were not statistically sig
 Nevertheless, we did find that every few years between the months of September and January, there were extreme spikes in beta coefficients that were in the 90 - 430 range with statistically significant p values. With a bit of research, we can see that [Puerto Rico’s hottest month](https://www.holiday-weather.com/san_juan_/averages/) with increased rain and humidity is typically September. Based on our findings, all of these details coincide with elevated amounts of dengue cases.
 
 Additionally, these findings match with the total cases of dengue mapped across weeks per year.
-![Cases per week of year](./img/chart_weekOfYear.PNG)
+![Cases per week of year](./imgs/chart_weekOfYear.PNG)
 As you can see, extreme numbers of total cases are found in the weeks at the end of the year.
 
 **Humidity**
@@ -199,3 +193,8 @@ As you can see, extreme numbers of total cases are found in the weeks at the end
 * Additionally for every unit increase in “mean specific humidity” (reanalysis_specific_humidity_g_per_kg) there was an increase of 34 cases of dengue.
 
 This makes sense for two reasons. One, based on research we previously explained, dengue tends to occur in climates with high humidity. Two, according to a [National Weather Service post](https://www.weather.gov/arx/why_dewpoint_vs_humidity) the lower the dew point temperature threshold the easier it is for it to become humid. This means that our model is explaining that when the dew point increases it becomes harder for it to become humid and therefore there are less cases of dengue. In comparison the lower the dew point, the higher humidity there is as well as higher cases of dengue.
+
+## Citations
+* https://www.drivendata.org/competitions/44/dengai-predicting-disease-spread/ 
+* https://www.health.ny.gov/diseases/communicable/dengue_fever/fact_sheet.htm 
+* http://www.muxetv.com/2019/01/08/medical-centric-what-is-dengue/
