@@ -1,5 +1,7 @@
 # Predicting Dengue Fever
 
+![Mosquito](./imgs/dengue_fever.PNG)
+
 
 ## Problem Overview
 
@@ -24,9 +26,9 @@ Dengue fever is known to be related to climate and humidity:
 
 ## Data Preparation
 
-We see that lacking values were filled with `NaN`. Initially we considered dropping all rows that contain any nulls. After some consideration we realized that we would be losing a lot of data if we did so. Our strategy will be to make a temporary data frame for each model we use. Each of these will drop rows with nulls **only** if the variable being used for that row is a null.
+We see that lacking values were filled with `NaN`. Initially, we considered dropping all rows that contain any nulls. After some consideration we realized that we would be losing a lot of data if we did so. Our strategy will be to make a temporary data frame for each model we use. Each of these will drop rows with nulls **only** if the variable being used for that row is a null. A nice aspect to mention is that a library that we are using, matplotlib, automatically deals with NaN and None values by dropping it and not visualizing it. Omitting NaN values will help us avoid any dirt data.
 
-Added a new variable `new_avg_temp_c` to the data frame that averages both `station_avg_temp_c` and `reanalysis_avg_temp_k`.
+We added a new variable `new_avg_temp_c` to the data frame. This value consists of the averages between `station_avg_temp_c` and `reanalysis_avg_temp_k` in order to find a common grounf for temperature between the datasets.
 
 
 
@@ -39,7 +41,9 @@ Added a new variable `new_avg_temp_c` to the data frame that averages both `stat
 
 Above is a bar chart of feature correlations to the total cases of dengue. To determine which variables have the most correlation with total cases, we look for the the highest absolute values. The categories with the highest values are: 
 
-* Reanalysis of minimum air temp ...(or insert screenshot of correlation table here)
+* Reanalysis of minimum air temp
+* The Year
+* Daytime temperature
 
 
 ### Dengue cases per year
@@ -65,14 +69,14 @@ As the minimum air temperature increases, the total cases of degue increases. Sa
 
 ![Daytime temperature versus total cases chart](./imgs/chart_daytimeTemp.PNG)
 
-We observed the change in total dengue cases relative to daytime temperature range. 
+We observed the change in total dengue cases relative to daytime temperature range. The temperatures that fall in the smaller ranges (fluctuating between two to four degrees Kelvin) are surprisingly at a higher temperature. This could indicate that locations where the daytime temperature range is minimal, temperatures tend to be high and therefore, more cases of dengue fever occur.
 
 
 ### Week of the Year Interpretation
 
 ![Cases per week of year](./imgs/chart_weekOfYear.PNG)
 
-There appears to be a seasonal increase of dengue cases between weeks 35 to 50. There is a dip/decrease of dengue cases between weeks 10 to 20. Though this graph does make it difficult to see when dots overlap.
+There appears to be a seasonal increase of dengue cases between weeks 35 to 50. There is a dip/decrease of dengue cases between weeks 10 to 20. Though this graph makes it difficult to see when dots overlap, this visualization gives the information that the number of dengue cases changes depending on the season.
 
 
 
@@ -176,7 +180,7 @@ Based on our model results we believe that our model has a strong fit.
 
 The bar chart below demonstrates beta coefficients for how chosen features. It should be taken into consideration that “reanalysis_min_air_temp_k” was not statistically significant with a P value of 0.3 . 
 
-![Beta coefficients](./imgs/beta coeffs.png)
+![Beta coefficients](./imgs/beta_coeffs.png)
 
 **Week Start**
 Surprisingly, most p values for “week start date” were not statistically significant. Out of the 1047 rows for week_start_date, only 145 rows were statistically significant. With this information, we were encouraged to try running the model with “week_of_day” instead of “week_start_date”. By swapping the variables, this produced an adjusted r-square value of 0.1, greatly decreasing our previous adjusted r-squared value by 75%. Though we do not have a full understanding of how  or why week_start_dates influences our model and week_of_day does not, we understand that it is extremely important for our fit and variance.
