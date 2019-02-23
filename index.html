@@ -77,6 +77,7 @@
               <article class="markdown-body entry-content" itemprop="text" id="grip-content">
                 <h1>
 <a id="user-content-predicting-dengue-fever" class="anchor" href="#predicting-dengue-fever" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Predicting Dengue Fever</h1>
+<p><a href="./imgs/dengue_fever.jpg" target="_blank" rel="noopener noreferrer"><img src="./imgs/dengue_fever.jpg" alt="Mosquito" style="max-width:100%;"></a></p>
 <h2>
 <a id="user-content-problem-overview" class="anchor" href="#problem-overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Problem Overview</h2>
 <p><strong>Dengue Fever</strong> is also known as breakbone fever and dandy fever It is a single-stranded RNA virus caused by Mosquitoes of the genus Aedes. These mosquitoes are most often found in <strong>urban</strong> areas as they like to harvest in man made products such as tires, flowerpots, and buckets. They were brought into Northern America and Europe by Asian products. It should be noted that they are capable of surviving subfreezing temperatures, allowing them to spread to cooler climates. There are four types of Dengue viruses which results in an acute infectious disease with <strong>symptoms</strong> of a high fever, joint pain, and muscle pain. The first signs of dengue includes fever, headache, joint pain, and rashes.</p>
@@ -100,8 +101,8 @@ Dengue fever is known to be related to climate and humidity:</p>
 </ul>
 <h2>
 <a id="user-content-data-preparation" class="anchor" href="#data-preparation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data Preparation</h2>
-<p>We see that lacking values were filled with <code>NaN</code>. Initially we considered dropping all rows that contain any nulls. After some consideration we realized that we would be losing a lot of data if we did so. Our strategy will be to make a temporary data frame for each model we use. Each of these will drop rows with nulls <strong>only</strong> if the variable being used for that row is a null.</p>
-<p>Added a new variable <code>new_avg_temp_c</code> to the data frame that averages both <code>station_avg_temp_c</code> and <code>reanalysis_avg_temp_k</code>.</p>
+<p>We see that lacking values were filled with <code>NaN</code>. Initially, we considered dropping all rows that contain any nulls. After some consideration we realized that we would be losing a lot of data if we did so. Our strategy will be to make a temporary data frame for each model we use. Each of these will drop rows with nulls <strong>only</strong> if the variable being used for that row is a null. A nice aspect to mention is that a library that we are using, matplotlib, automatically deals with NaN and None values by dropping it and not visualizing it. Omitting NaN values will help us avoid any dirt data.</p>
+<p>We added a new variable <code>new_avg_temp_c</code> to the data frame. This value consists of the averages between <code>station_avg_temp_c</code> and <code>reanalysis_avg_temp_k</code> in order to find a common grounf for temperature between the datasets.</p>
 <h2>
 <a id="user-content-data-exploration" class="anchor" href="#data-exploration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data Exploration</h2>
 <h3>
@@ -109,7 +110,9 @@ Dengue fever is known to be related to climate and humidity:</p>
 <p><a href="./imgs/chart_correlation.PNG" target="_blank" rel="noopener noreferrer"><img src="./imgs/chart_correlation.PNG" alt="Correlation chart" style="max-width:100%;"></a></p>
 <p>Above is a bar chart of feature correlations to the total cases of dengue. To determine which variables have the most correlation with total cases, we look for the the highest absolute values. The categories with the highest values are:</p>
 <ul>
-<li>Reanalysis of minimum air temp ...(or insert screenshot of correlation table here)</li>
+<li>Reanalysis of minimum air temp</li>
+<li>The Year</li>
+<li>Daytime temperature</li>
 </ul>
 <h3>
 <a id="user-content-dengue-cases-per-year" class="anchor" href="#dengue-cases-per-year" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dengue cases per year</h3>
@@ -124,11 +127,11 @@ Dengue fever is known to be related to climate and humidity:</p>
 <h3>
 <a id="user-content-dengue-cases-vs-daytime-temperature-range" class="anchor" href="#dengue-cases-vs-daytime-temperature-range" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dengue cases vs daytime temperature range</h3>
 <p><a href="./imgs/chart_daytimeTemp.PNG" target="_blank" rel="noopener noreferrer"><img src="./imgs/chart_daytimeTemp.PNG" alt="Daytime temperature versus total cases chart" style="max-width:100%;"></a></p>
-<p>We observed the change in total dengue cases relative to daytime temperature range.</p>
+<p>We observed the change in total dengue cases relative to daytime temperature range. The temperatures that fall in the smaller ranges (fluctuating between two to four degrees Kelvin) are surprisingly at a higher temperature. This could indicate that locations where the daytime temperature range is minimal, temperatures tend to be high and therefore, more cases of dengue fever occur.</p>
 <h3>
 <a id="user-content-week-of-the-year-interpretation" class="anchor" href="#week-of-the-year-interpretation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Week of the Year Interpretation</h3>
 <p><a href="./imgs/chart_weekOfYear.PNG" target="_blank" rel="noopener noreferrer"><img src="./imgs/chart_weekOfYear.PNG" alt="Cases per week of year" style="max-width:100%;"></a></p>
-<p>There appears to be a seasonal increase of dengue cases between weeks 35 to 50. There is a dip/decrease of dengue cases between weeks 10 to 20. Though this graph does make it difficult to see when dots overlap.</p>
+<p>There appears to be a seasonal increase of dengue cases between weeks 35 to 50. There is a dip/decrease of dengue cases between weeks 10 to 20. Though this graph makes it difficult to see when dots overlap, this visualization gives the information that the number of dengue cases changes depending on the season.</p>
 <h2>
 <a id="user-content-statistical-modeling" class="anchor" href="#statistical-modeling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Statistical Modeling</h2>
 <p><strong>Chosen Statistical Approach</strong>
@@ -202,7 +205,7 @@ reanalysis_dew_point_temp_k + reanalysis_min_air_temp_k + 1
 <p>Based on our model results we believe that our model has a strong fit.</p>
 <p><strong>Visual Results</strong></p>
 <p>The bar chart below demonstrates beta coefficients for how chosen features. It should be taken into consideration that “reanalysis_min_air_temp_k” was not statistically significant with a P value of 0.3 .</p>
-<p>![Beta coefficients](./imgs/beta coeffs.png)</p>
+<p><a href="./imgs/beta_coeffs.png" target="_blank" rel="noopener noreferrer"><img src="./imgs/beta_coeffs.png" alt="Beta coefficients" style="max-width:100%;"></a></p>
 <p><strong>Week Start</strong>
 Surprisingly, most p values for “week start date” were not statistically significant. Out of the 1047 rows for week_start_date, only 145 rows were statistically significant. With this information, we were encouraged to try running the model with “week_of_day” instead of “week_start_date”. By swapping the variables, this produced an adjusted r-square value of 0.1, greatly decreasing our previous adjusted r-squared value by 75%. Though we do not have a full understanding of how  or why week_start_dates influences our model and week_of_day does not, we understand that it is extremely important for our fit and variance.</p>
 <p>Nevertheless, we did find that every few years between the months of September and January, there were extreme spikes in beta coefficients that were in the 90 - 430 range with statistically significant p values. With a bit of research, we can see that <a href="https://www.holiday-weather.com/san_juan_/averages/" rel="nofollow">Puerto Rico’s hottest month</a> with increased rain and humidity is typically September. Based on our findings, all of these details coincide with elevated amounts of dengue cases.</p>
