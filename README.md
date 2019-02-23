@@ -1,6 +1,6 @@
 # Predicting Dengue Fever
 
-![Mosquito](./imgs/dengue_fever.PNG)
+![Mosquito](./imgs/dengue_fever.jpg)
 
 
 ## Problem Overview
