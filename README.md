@@ -2,6 +2,9 @@
 
 ![Mosquito](./imgs/dengue_fever.jpg)
 
+## Structure
+* Data Prep and Exploration: [README.md](./README.md)
+* Dengue Fever Machine Learning Predictions: [predictions.md](predictions.md)
 
 ## Problem Overview
 
